@@ -6,14 +6,14 @@
 最終更新日: 2016/11/07  
 実行ファイル名: CLSG.jar  
 動作確認  
-*OS:  
+* OS:  
   Windows10 Pro 64bit  
   LinuxBean12.04
-*プロセッサ:  
+* プロセッサ:  
   2.00GHz Intel Core i7-3667U  
-*メモリ:  
+* メモリ:  
   8GB RAM  
-*Javaバージョン:  
+* Javaバージョン:  
   1.8.0-101  
 
 ##概要
