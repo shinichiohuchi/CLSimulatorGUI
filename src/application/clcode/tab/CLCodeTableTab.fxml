@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.clcode.tab.CLCodeTableTabController">
+   <children>
+      <TableView fx:id="tableView" layoutX="64.0" layoutY="-19.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+          <TableColumn fx:id="stepColumn" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="Step" />
+          <TableColumn fx:id="cltermCountColumn" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="CLT" />
+            <TableColumn fx:id="clcodeColumn" editable="false" maxWidth="1.7976931348623157E308" minWidth="480.0" prefWidth="480.0" sortable="false" text="Code" />
+        </columns>
+         <contextMenu>
+            <ContextMenu fx:id="contextMenu">
+              <items>
+                <MenuItem fx:id="copyMenuItem" mnemonicParsing="false" onAction="#copyMenuItemOnClicked" text="Copy to clip board" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
+      </TableView>
+   </children>
+</AnchorPane>

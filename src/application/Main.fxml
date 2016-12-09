@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+  <center>
+    <SplitPane fx:id="splitPane" dividerPositions="0.7" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <items>
+        <BorderPane>
+          <top>
+            <BorderPane BorderPane.alignment="CENTER">
+              <BorderPane.margin>
+                <Insets left="5.0" right="5.0" top="5.0" />
+              </BorderPane.margin>
+              <center>
+                <TextField fx:id="clcodeTextField" onKeyPressed="#clcodeTextFieldOnKeyPressed" prefHeight="25.0" prefWidth="217.0" promptText="Enter the CLCode here." BorderPane.alignment="CENTER">
+                  <BorderPane.margin>
+                    <Insets right="5.0" />
+                  </BorderPane.margin>
+                </TextField>
+              </center>
+              <right>
+                <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonOnClicked" prefWidth="75.0" text="Add" BorderPane.alignment="CENTER" />
+              </right>
+            </BorderPane>
+          </top>
+          <center>
+            <AnchorPane>
+              <children>
+                <TitledPane fx:id="resultTitledPane" animated="false" collapsible="false" text="Result" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+                  <content>
+                    <TabPane fx:id="tabPane" layoutX="99.0" layoutY="-13.0" onDragDropped="#tabPaneDragDrop" onDragOver="#tabPaneDragOver" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  </content>
+                  <BorderPane.margin>
+                    <Insets top="5.0" />
+                  </BorderPane.margin>
+                </TitledPane>
+              </children>
+              <BorderPane.margin>
+                <Insets top="5.0" />
+              </BorderPane.margin>
+            </AnchorPane>
+          </center>
+        </BorderPane>
+        <AnchorPane fx:id="anchorPane" prefHeight="200.0" prefWidth="200.0">
+          <children>
+            <TitledPane fx:id="previewTitledPane" collapsible="false" text="ビュー" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <content>
+                <TextArea fx:id="previewTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </TitledPane>
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+  </center>
+  <top>
+    <MenuBar BorderPane.alignment="CENTER">
+      <menus>
+        <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openMenuItemOnClicked" text="Open...">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#saveAsMenuItemOnClicked" text="Save As...">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="newDefinitionFileMenuItem" mnemonicParsing="false" onAction="#newDefinitionFileMenuItemOnClicked" text="New Definition...">
+              <accelerator>
+                <KeyCodeCombination alt="DOWN" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem fx:id="openDefinitionFileMenuItem" mnemonicParsing="false" onAction="#openDefinitionFileMenuItemOnClicked" text="Open Definition...">
+              <accelerator>
+                <KeyCodeCombination alt="DOWN" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem fx:id="editDefinitionFileMenuItem" disable="true" mnemonicParsing="false" onAction="#editDefinitionFileMenuItemOnClicked" text="Edit Definition..." />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="configMenuItem" mnemonicParsing="false" onAction="#configMenuItemOnAction" text="設定" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#closeMenuItemOnClicked" text="Quit" />
+          </items>
+        </Menu>
+        <Menu fx:id="editMenu" mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem fx:id="createRandomCodeMenuItem" mnemonicParsing="false" onAction="#createRandomCodeMenuItemOnClicked" text="Create Random Code">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <Menu fx:id="cltermCountMenu" mnemonicParsing="false" text="CLTerm Count">
+              <!-- 乱数生成に使用するCLTerm数を決定するグループ -->
+              <items>
+                <RadioMenuItem mnemonicParsing="false" selected="true" text="100">
+                  <toggleGroup>
+                    <ToggleGroup fx:id="cltermCountGroup" />
+                  </toggleGroup>
+                </RadioMenuItem>
+
+                <RadioMenuItem mnemonicParsing="false" text="500" toggleGroup="$cltermCountGroup" />
+                <RadioMenuItem mnemonicParsing="false" text="1000" toggleGroup="$cltermCountGroup" />
+                <RadioMenuItem mnemonicParsing="false" text="5000" toggleGroup="$cltermCountGroup" />
+              </items>
+            </Menu>
+            <Menu fx:id="calculationMaxMenu" mnemonicParsing="false" text="Calculation Max">
+              <!-- 計算回数の上限を指定するグループ -->
+              <items>
+                <RadioMenuItem mnemonicParsing="false" selected="true" text="1000">
+                  <toggleGroup>
+                    <ToggleGroup fx:id="calculationMaxGroup" />
+                  </toggleGroup>
+                </RadioMenuItem>
+
+                <RadioMenuItem mnemonicParsing="false" text="5000" toggleGroup="$calculationMaxGroup" />
+                <RadioMenuItem mnemonicParsing="false" text="10000" toggleGroup="$calculationMaxGroup" />
+                <RadioMenuItem mnemonicParsing="false" text="50000" toggleGroup="$calculationMaxGroup" />
+                <RadioMenuItem mnemonicParsing="false" text="0" toggleGroup="$calculationMaxGroup" />
+              </items>
+            </Menu>
+          </items>
+        </Menu>
+        <Menu fx:id="tabMenu" mnemonicParsing="false" text="Tab">
+          <items>
+            <MenuItem fx:id="deleteTabMenuItem" mnemonicParsing="false" onAction="#deleteTabMenuItemOnClicked" text="Delete Selected">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem fx:id="clearTabsMenuItem" mnemonicParsing="false" onAction="#clearTabsMenuItemOnClicked" text="Clear Tabs">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem fx:id="moveLeftTabMenuItem" mnemonicParsing="false" onAction="#moveLeftTabMenuItemOnClicked" text="Move Left">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+            <MenuItem fx:id="moveRightTabMenuItem" mnemonicParsing="false" onAction="#moveRightTabMenuItemOnClicked" text="Move Right">
+              <accelerator>
+                <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+              </accelerator>
+            </MenuItem>
+          </items>
+        </Menu>
+        <Menu fx:id="viewMenu" mnemonicParsing="false" text="Window">
+          <items>
+            <CheckMenuItem fx:id="showCombinatorsCheckMenuItem" mnemonicParsing="false" onAction="#showDefinitionStageMenuItemOnClicked" text="Combinators" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </top>
+</BorderPane>
