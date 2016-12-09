@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.input.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="520.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.stage.definition.edit.EditDefinitionStageController">
+   <bottom>
+      <BorderPane BorderPane.alignment="CENTER">
+         <right>
+            <FlowPane alignment="CENTER_RIGHT" hgap="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="okButton" mnemonicParsing="false" prefWidth="125.0" text="OK" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" prefWidth="125.0" text="Cancel" />
+               </children>
+               <BorderPane.margin>
+                  <Insets top="5.0" />
+               </BorderPane.margin>
+            </FlowPane>
+         </right>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+         </padding>
+      </BorderPane>
+   </bottom>
+   <center>
+      <SplitPane fx:id="splitPane" dividerPositions="0.5074" BorderPane.alignment="CENTER">
+        <items>
+            <BorderPane>
+               <center>
+                  <TextArea fx:id="definitionTextArea" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </BorderPane.margin>
+                  </TextArea>
+               </center>
+               <top>
+                  <BorderPane BorderPane.alignment="CENTER">
+                     <left>
+                        <Label fx:id="definitionlabel" text="Definition File: " BorderPane.alignment="CENTER_LEFT">
+                           <BorderPane.margin>
+                              <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </left>
+                  </BorderPane>
+               </top>
+               <bottom>
+                  <FlowPane alignment="CENTER_LEFT" hgap="10.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="restoreButton" mnemonicParsing="false" prefWidth="125.0" text="Restore">
+                           <tooltip>
+                              <Tooltip text="Restore Text of Opened File" />
+                           </tooltip></Button>
+                        <Button fx:id="initializeButton" mnemonicParsing="false" prefWidth="125.0" text="Initialize">
+                           <tooltip>
+                              <Tooltip text="Set SKI Combinators" />
+                           </tooltip></Button>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                     </BorderPane.margin>
+                  </FlowPane>
+               </bottom>
+            </BorderPane>
+            <BorderPane>
+               <center>
+                  <TextArea fx:id="previewTextArea" editable="false" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </BorderPane.margin>
+                  </TextArea>
+               </center>
+               <bottom>
+                  <Button fx:id="updateButton" mnemonicParsing="false" prefWidth="125.0" text="Update" BorderPane.alignment="CENTER_RIGHT">
+                     <BorderPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
+                     </BorderPane.margin>
+                     <tooltip>
+                        <Tooltip text="Please push Update Button if you couldn't push OK." />
+                     </tooltip>
+                  </Button>
+               </bottom>
+               <top>
+                  <Label fx:id="previewLabel" text="Preview:" BorderPane.alignment="CENTER_LEFT">
+                     <BorderPane.margin>
+                        <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                     </BorderPane.margin>
+                  </Label>
+               </top>
+            </BorderPane>
+        </items>
+      </SplitPane>
+   </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="okMenuItem" mnemonicParsing="false" text="OK">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem fx:id="cancelMenuItem" mnemonicParsing="false" text="Cancel">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+            </items>
+          </Menu>
+          <Menu fx:id="definitionMenu" mnemonicParsing="false" text="Definition">
+            <items>
+              <MenuItem fx:id="restoreMenuItem" mnemonicParsing="false" text="Restore">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <MenuItem fx:id="initializeMenuItem" mnemonicParsing="false" text="Initialize">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="I" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+            </items>
+          </Menu>
+          <Menu fx:id="previewMenu" mnemonicParsing="false" text="Preview">
+            <items>
+              <MenuItem fx:id="updateMenuItem" mnemonicParsing="false" text="Update">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="ENTER" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

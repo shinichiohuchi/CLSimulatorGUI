@@ -1,0 +1,22 @@
+.root {
+    -fx-font-size: 10.0pt;
+    -fx-font-family: "Meiryo";
+}
+
+.titled-pane .title {
+    -fx-font-weight: bold;
+}
+
+.text-area {
+    -fx-font-size: 12.0pt;
+    -fx-font-family: "Monospace";
+}
+
+.tool-bar .text {
+    -fx-font-size: 10.0pt;
+}
+
+.table-view .column-header .label {
+    -fx-alignment: center-left ;
+    -fx-padding: 0.0 0.0 0.0 5.0;
+}
