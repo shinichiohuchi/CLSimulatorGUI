@@ -2,8 +2,8 @@
 
 Version: 2.0  
 Author: Shinichi Oouchi (大内 真一)  
-Since: 2016/11/10  
-Last Chagned: 2016/11/10  
+Since: 2016/12/10  
+Last Chagned: 2016/12/10  
 Execution File: CLSG.jar  
 Operation  
 * OS:  
