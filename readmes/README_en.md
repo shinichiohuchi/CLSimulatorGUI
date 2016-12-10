@@ -17,16 +17,17 @@ Operation
   1.8.0-111  
 
 ##Overview
-CLSimulatorGUI is tool to calculate Combinator Logic Code(CLCode);
+CLSimulatorGUI is software to calculate Combinator Logic Code(CLCode);
 
-This tool has S, K, I, B, C Combinators by default.  
-This tool could output result of calculation as text file  
+This software has S, K, I, B, C Combinators by default.  
+This software could output result of calculation as text file  
 and add new combinators to after default Combinators.  
 But couldn't override default combinators.
 
 ##Usage
 ###Calculation Combinators
-1. Double click the CLSG.jar or type "java -jar CLSG.jar" on terminal.
+1. Double click the CLSG.jar or type "java -jar CLSG.jar" on terminal.  
+You must check Java version and update it if soft didn't launch.
 2. Type CLCode to text field on top.  
 and push "Add" button or press ENTER Key.  
 Result will be displayed to Result Tab on center.
