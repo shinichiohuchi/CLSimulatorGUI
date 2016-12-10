@@ -16,6 +16,11 @@ import javafx.stage.Stage;
 import java.util.Optional;
 import java.util.Properties;
 
+/**
+ * オプション設定の入出力を管理するクラス。
+ * @author shinichi666
+ *
+ */
 public class Config {
   private Properties properties;
   private Map<String, String> propertiesMap = new HashMap<String, String>();
@@ -23,6 +28,10 @@ public class Config {
   private static final String DIR_PATH = "./properties";
   private final File CONFIG_FILE;
 
+  /**
+   * ファイル名のプロパティファイルをロードするコンストラクタ。
+   * @param fileName ファイル名
+   */
   public Config(String fileName) {
     properties = new Properties();
 
@@ -48,6 +57,9 @@ public class Config {
     }
   }
 
+  /**
+   * プロパティファイルを出力する。
+   */
   public void write() {
     for (Entry<String, String> entry : propertiesMap.entrySet()) {
       properties.setProperty(entry.getKey(), entry.getValue());
@@ -67,7 +79,7 @@ public class Config {
   /**
    * 値を取り出す。
    * @param key キー
-   * @return
+   * @return 値
    */
   public Optional<String> getProperty(String key) {
     return Optional.ofNullable(properties.getProperty(key));

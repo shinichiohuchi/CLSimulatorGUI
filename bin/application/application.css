@@ -12,10 +12,6 @@
     -fx-font-family: "Monospace";
 }
 
-.tool-bar .text {
-    -fx-font-size: 10.0pt;
-}
-
 .table-view .column-header .label {
     -fx-alignment: center-left ;
     -fx-padding: 0.0 0.0 0.0 5.0;

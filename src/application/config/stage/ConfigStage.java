@@ -19,7 +19,7 @@ public class ConfigStage extends Stage {
 
   /**
    * リストに格納するテキストとConfigControllerを実装したクラスを渡すコンストラクタ。
-   * @param aControllerMap
+   * @param aControllerMap テキストとコントローラのマップ
    */
   public ConfigStage(Map<String, ConfigController> aControllerMap) {
     try {
@@ -51,7 +51,7 @@ public class ConfigStage extends Stage {
 
   /**
    * リストビューの幅を変更する。
-   * @param width
+   * @param width 横幅
    */
   public void setListViewWidth(double width) {
     controller.setListViewWidth(width);

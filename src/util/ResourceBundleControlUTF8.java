@@ -8,6 +8,10 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+/**
+ * リソースバンドルを他のUTF8で読み取るためのクラス。
+ *
+ */
 public class ResourceBundleControlUTF8 extends ResourceBundle.Control {
   /**
    * UTF-8 エンコーディングのプロパティファイルから ResourceBundle
@@ -19,9 +23,9 @@ public class ResourceBundleControlUTF8 extends ResourceBundle.Control {
    * http://jgloss.sourceforge.net/jgloss-core/jacoco/jgloss.util/UTF8ResourceBundleControl.java.html
    * </a>
    * </p>
-   * @throws IllegalAccessException
-   * @throws InstantiationException
-   * @throws IOException
+   * @throws IllegalAccessException 例外
+   * @throws InstantiationException 例外
+   * @throws IOException 例外
    */
   @Override
   public ResourceBundle newBundle(String baseName, Locale locale, String format,

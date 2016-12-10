@@ -15,9 +15,16 @@ import lib.string.combinator.CombinatorLogic;
  * @author shinichi666
  */
 public class RandomCode {
+  /**
+   * CLTermRadioMenuItemのみを保持するグループ。
+   */
   private final ToggleGroup cltermCountGroup;
 
-  public RandomCode(ToggleGroup cltermCountGroup) {
+  /**
+   * CLTermRadioMenuItemを保持するグループを渡すコンストラクタ。
+   * @param cltermCountGroup グループ。
+   */
+  RandomCode(ToggleGroup cltermCountGroup) {
     this.cltermCountGroup = cltermCountGroup;
   }
 
@@ -37,24 +44,26 @@ public class RandomCode {
     if (combinatorsList != null) {
       newCombinatorsList.addAll(combinatorsList);
     }
-    int size = newCombinatorsList.size();
-
-    int count = getCLTermCount();
+    int randomMax = newCombinatorsList.size();
+    int cltermCount = getCLTermCount();
 
     // 文字列を連結し乱数コードを生成
     AtomicInteger bracketCount = new AtomicInteger(0);
-    IntStream.range(0, count)
+    AtomicInteger timingCount = new AtomicInteger(0);
+    IntStream.range(0, cltermCount)
         .parallel()
         .forEach(i -> {
-          int index = random.nextInt(size);
+          int index = random.nextInt(randomMax);
 
           // 括弧を追加して入れ子構造を実装
           if (index == 0) {
             buffer.append('(');
             bracketCount.getAndIncrement();
-          } else if (index == 1 && 1 < bracketCount.get()) {
+            timingCount.getAndIncrement();
+          } else if (index == 1 && 1 < timingCount.get()) {
             buffer.append(')');
-            bracketCount.set(0);
+            bracketCount.getAndDecrement();
+            timingCount.set(0);
           }
 
           String[] array = newCombinatorsList.get(index);
@@ -71,7 +80,7 @@ public class RandomCode {
 
   /**
    * 乱数生成に使用するCLTermの数を返す。
-   * @return
+   * @return CLtermの数
    */
   int getCLTermCount() {
     RadioMenuItem countRadio = (RadioMenuItem) cltermCountGroup.getSelectedToggle();

@@ -11,12 +11,18 @@ import javafx.stage.StageStyle;
 
 /**
  * FileChooserを開いて取得したファイルを保持するクラス。
- * @author jiro
+ * @author shinichi
  * @version 1.1
  */
 public class FileChooserManager {
+  /**
+   * 開いたファイル
+   */
   private File file;
   private final FileChooser fc;
+  /**
+   * FileChooserにセットするステージ。
+   */
   private static final Stage UTIL_STAGE = new Stage(StageStyle.UTILITY);
 
   /**

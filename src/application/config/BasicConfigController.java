@@ -21,6 +21,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import util.Languages;
 
+/**
+ * アプリケーションの基本設定を管理するクラス。
+ * @author shinichi666
+ */
 public class BasicConfigController implements ConfigController {
   private static final String TITLE = MainController.dictionary
       .getString("configStage-basic-headerTitle");
@@ -39,18 +43,11 @@ public class BasicConfigController implements ConfigController {
   @FXML private Label previewLabel;
   @FXML private Label editLabel;
 
+  /**
+   * フォントサイズのリスト。
+   */
   private static final ObservableList<String> fontSizeList = FXCollections.observableArrayList(
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "11",
-      "12",
-      "13",
-      "14",
-      "15",
-      "16");
+      "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16");
   @FXML private ComboBox<String> tableViewComboBox;
   @FXML private ComboBox<String> previewComboBox;
   @FXML private ComboBox<String> editComboBox;
@@ -75,6 +72,9 @@ public class BasicConfigController implements ConfigController {
     setLanguages();
   }
 
+  // ************************************************************
+  // Getter
+  // ************************************************************
   @Override
   public Map<String, String> getConfigMap() {
     Map<String, String> propertiesMap = new HashMap<>(6);
@@ -101,6 +101,9 @@ public class BasicConfigController implements ConfigController {
     return TITLE;
   }
 
+  // ************************************************************
+  // Setter
+  // ************************************************************
   /**
    * 各種コンポーネントにテキストをセットする。
    */

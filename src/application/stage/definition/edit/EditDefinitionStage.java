@@ -12,6 +12,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import util.PropertiesKeys;
 
+/**
+ * 定義編集クラスのステージ。
+ * @author shinichi666
+ *
+ */
 public class EditDefinitionStage extends Stage {
   private static final Config CONFIG = new Config("edit-stage.xml");
 

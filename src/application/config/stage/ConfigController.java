@@ -12,25 +12,25 @@ import javafx.scene.Node;
 public interface ConfigController {
   /**
    * ヘッダーのタイトルに描画するテキストを返す。
-   * @return
+   * @return ヘッダータイトル
    */
   String getTitle();
 
   /**
    * ヘッダーの説明に描画するテキストを返す。
-   * @return
+   * @return ヘッダー説明文
    */
   String getDescription();
 
   /**
    * コントローラのrootを返す。
-   * @return
+   * @return rootペイン
    */
   Node getRoot();
 
   /**
    * コントローラ内で管理する値のマップを返す。
-   * @return
+   * @return キー、値の関係のマップ
    */
   Map<String, String> getConfigMap();
 }

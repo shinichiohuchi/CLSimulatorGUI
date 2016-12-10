@@ -14,10 +14,23 @@ import javafx.scene.control.TextArea;
 import lib.string.combinator.CombinatorLogic;
 import util.UtilCombinatorLogic;
 
+/**
+ * 定義済みコンビネータ一覧を管理するクラス。
+ * テキストエリアとそれに関連したメソッドを内包する。
+ * @author shinichi666
+ *
+ */
 class DefinitionViewer {
+  /**
+   * プレビューテキストエリア
+   */
   private TextArea textArea;
 
-  public DefinitionViewer(TextArea aTextArea) {
+  /**
+   * 監視対象のテキストエリアを渡すコンストラクタ。
+   * @param aTextArea テキストエリア
+   */
+  DefinitionViewer(TextArea aTextArea) {
     textArea = aTextArea;
     appendList(CombinatorLogic.getInitialMacroCombinatorsList());
   }
@@ -57,15 +70,33 @@ class DefinitionViewer {
     textArea.positionCaret(0);
   }
 
+  // ************************************************************
+  // Getter
+  // ************************************************************
+  /**
+   * テキストエリアのフォントサイズを返す。
+   * @return フォントサイズ
+   */
+  double getFontSize() {
+    return textArea.getFont().getSize();
+  }
+
+  // ************************************************************
+  // Setter
+  // ************************************************************
+  /**
+   * フォントサイズをセットする。
+   * @param fontSize フォントサイズ
+   */
   void setFontSize(int fontSize) {
     setFontSize("" + fontSize);
   }
 
+  /**
+   * フォントサイズをセットする。
+   * @param fontSize フォントサイズ
+   */
   void setFontSize(String fontSize) {
     textArea.setStyle("-fx-font-size:" + fontSize + "pt;");
-  }
-
-  double getFontSize() {
-    return textArea.getFont().getSize();
   }
 }

@@ -150,13 +150,8 @@ public class MainController {
   @FXML private TitledPane previewTitledPane;
   @FXML private TextArea previewTextArea;
 
-  static {
-    changeLanguage();
-  }
-
   @FXML
   private void initialize() {
-    setLanguages();
     definitionViewer = new DefinitionViewer(previewTextArea);
     clcodeFileManager = new FileChooserManager("Text Files", "*.txt");
     randomCode = new RandomCode(cltermCountGroup);
@@ -165,78 +160,30 @@ public class MainController {
     // 設定ファイルから読み取った値をセット
     // **************************************************
     changeDividerPosition();
-    changePreviewFontSize();
-
-    boolean autoOpen = CONFIG.getProperty(PropertiesKeys.AUTO_OPEN.TEXT)
-        .map(Boolean::valueOf).orElse(true);
-    showCombinatorsCheckMenuItem.setSelected(autoOpen);
-    if (!autoOpen) {
-      splitPane.getItems().remove(anchorPane);
-    }
+    changeDefinitionViewerFontSize();
+    showOrHideDefinitionViewer();
 
     String defPath = CONFIG.getProperty(PropertiesKeys.DEFINITION_PATH.TEXT).orElse("");
     definitionFileManager = new FileChooserManager(defPath, "Text Files", "*.csv");
-    // **************************************************
-
     File defFile = new File(defPath);
     if (defFile.exists()) {
       combinatorsList = CombinatorLogic.makeMacroCombinatorsList(defFile);
       editDefinitionFileMenuItem.setDisable(false);
     }
+    // **************************************************
 
+    changeLanguage();
+    setLanguages();
     addInitialTab();
     updateDefinitionPreview();
     changeResultFontSize();
-    CONFIG.getProperty(PropertiesKeys.CLTERM_COUNT.TEXT)
-        .ifPresent(text -> {
-          changeSelectionOfToggle(cltermCountGroup, text);
-        });
-    CONFIG.getProperty(PropertiesKeys.CALCULATION_MAX.TEXT)
-        .ifPresent(text -> {
-          changeSelectionOfToggle(calculationMaxGroup, text);
-        });
+    changeSelectionOfToggle(PropertiesKeys.CLTERM_COUNT.TEXT, cltermCountGroup);
+    changeSelectionOfToggle(PropertiesKeys.CALCULATION_MAX.TEXT, calculationMaxGroup);
   }
 
   /**
-   * 定義ビューのディバイダ―位置を変更する。
+   * アプリケーション終了時の設定ファイルの生成。
    */
-  private void changeDividerPosition() {
-    CONFIG.getProperty(PropertiesKeys.DIVIDER.TEXT)
-        .map(Double::parseDouble)
-        .ifPresent(d -> splitPane.setDividerPosition(0, d));
-  }
-
-  public void distableCheckMenuItem() {
-    showCombinatorsCheckMenuItem.setSelected(false);
-  }
-
-  /**
-   * 計算結果のフォントサイズを変更する。
-   */
-  private void changeResultFontSize() {
-    int resultFontSize = CONFIG.getProperty(PropertiesKeys.RESULT.TEXT)
-        .map(Integer::parseInt).orElse(10);
-    changeResultFontSize(resultFontSize);
-  }
-
-  /**
-   * 計算結果のフォントサイズを変更する。
-   * @param fontSize フォントサイズ
-   */
-  private void changeResultFontSize(int fontSize) {
-    clCodeTabList.stream().forEach(t -> t.changeFontSize(fontSize));
-  }
-
-  private void changePreviewFontSize() {
-    int fontSize = CONFIG.getProperty(PropertiesKeys.PREVIEW.TEXT)
-        .map(Integer::parseInt).orElse(12);
-    changePreviewFontSize(fontSize);
-  }
-
-  private void changePreviewFontSize(int fontSize) {
-    definitionViewer.setFontSize(fontSize);
-  }
-
   void closeAction() {
     // アプリケーション全般の設定を出力
     clcodeFileManager.getFile().ifPresent(f -> {
@@ -263,9 +210,14 @@ public class MainController {
     Platform.exit();
   }
 
-  // **************************************************
-  // Resultテーブルに計算結果を追加する操作。
-  // **************************************************
+  /**
+   * ウィンドウのタイトルにファイル名を表示。
+   * definitionManagerからファイル情報を取得して登録。
+   */
+  void updateTitle() {
+    definitionFileManager.getFile().ifPresent(this::updateTitle);
+  }
+
   /**
    * テキストフィールドから文字列を取得し、テーブルに追加する。
    */
@@ -276,8 +228,7 @@ public class MainController {
 
   /**
    * パスのファイルからテキストを取り出し、計算結果をテーブルに追加する。
-   * @param path
-   *          FilePath
+   * @param path FilePath
    */
   private void addCLCode(Path path) {
     try (BufferedReader br = Files.newBufferedReader(path, Charset.forName("UTF-8"))) {
@@ -291,8 +242,7 @@ public class MainController {
   /**
    * 文字列を計算し、テーブルに追加する。 この処理は計算が引数不足で終了するまで継続する。
    * 無限ループが発生する可能性がある。
-   * @param clcode
-   *          CLCode
+   * @param clcode CLCode
    */
   private void addCLCode(String clcode) {
     int max = getMaxCalculationCount();
@@ -303,10 +253,8 @@ public class MainController {
    * 文字列を計算し、テーブルに追加する。 計算回数の上限を指定することができ、
    * 0を指定した場合は、コンビネータが引数不足になるまで 計算を継続する。
    * 0を指定した場合は無限ループが発生する可能性がある。
-   * @param clcode
-   *          CLCode
-   * @param max
-   *          計算回数の上限
+   * @param clcode CLCode
+   * @param max 計算回数の上限
    */
   private void addCLCode(String clcode, int max) {
     Optional<String> clcodeOpt = Optional.ofNullable(clcode);
@@ -332,6 +280,9 @@ public class MainController {
     definitionFileManager.getFile().ifPresent(definitionViewer::update);
   }
 
+  /**
+   * 画面遷移から戻ってきたときに、テキストフィールドにフォーカスを移す。
+   */
   private void textFieldRequestFocus() {
     clcodeTextField.getScene().getWindow().requestFocus();
     clcodeTextField.requestFocus();
@@ -346,9 +297,6 @@ public class MainController {
     tabPane.getTabs().add(tab);
   }
 
-  // **************************************************
-  // メニュー操作。
-  // **************************************************
   /**
    * FileChooserからテキストファイルを一つ選択し、 計算結果をテーブルに追加する。
    */
@@ -416,6 +364,18 @@ public class MainController {
     textFieldRequestFocus();
   }
 
+  @FXML
+  private void configMenuItemOnAction() {
+    ConfigOperator operator = new ConfigOperator();
+    Optional<Map<String, String>> configsMap = operator.showAndWaitAndGetConfigs();
+    configsMap.ifPresent(map -> CONFIG.setProperties(map));
+
+    changeLanguage();
+    setLanguages();
+    changeResultFontSize();
+    changeDefinitionViewerFontSize();
+  }
+
   private List<String[]> makeDefinitionList(File file) {
     Path path = file.toPath();
     try (BufferedReader br = Files.newBufferedReader(path, Charset.forName("UTF-8"))) {
@@ -441,16 +401,6 @@ public class MainController {
     String randCode = randomCode.makeRandomCode(combinatorsList);
     int max = getMaxCalculationCount();
     addCLCode(randCode, max);
-  }
-
-  /**
-   * 選択中のラジオメニューから上限値を取得する。
-   * @return max
-   */
-  private int getMaxCalculationCount() {
-    RadioMenuItem maxRadio = (RadioMenuItem) calculationMaxGroup.getSelectedToggle();
-    int max = Integer.valueOf(maxRadio.getText());
-    return max - 1;
   }
 
   // **************************************************
@@ -564,27 +514,84 @@ public class MainController {
   }
 
   /**
-   * 開いている定義ファイルのコンビネータの定義リストを返す。
-   * @return 定義配列リスト
+   * プロパティによって定義ビューワの表示非表示を切り替える。
    */
-  public List<String[]> getCombinatorsList() {
-    return combinatorsList;
+  private void showOrHideDefinitionViewer() {
+    boolean autoOpen = CONFIG.getProperty(PropertiesKeys.AUTO_OPEN.TEXT)
+        .map(Boolean::valueOf).orElse(true);
+    showCombinatorsCheckMenuItem.setSelected(autoOpen);
+    if (!autoOpen) {
+      splitPane.getItems().remove(anchorPane);
+    }
   }
 
   /**
-   * 定義ファイルを監視するFileChooserManagerクラスのインスタンスを返す。
-   * @return
+   * キーの値がCONFIG内に存在した場合、トグルの変更を行う。
+   * @param key キー
+   * @param group グループ
    */
-  public static FileChooserManager getDefinitionFileManager() {
-    return definitionFileManager;
+  private void changeSelectionOfToggle(String key, ToggleGroup group) {
+    CONFIG.getProperty(key)
+        .ifPresent(text -> {
+          changeSelectionOfToggle(cltermCountGroup, text);
+        });
+
   }
 
   /**
-   * ウィンドウのタイトルにファイル名を表示。
-   * definitionManagerからファイル情報を取得して登録。
+   * 渡したテキストと一致するラジオメニューを選択する。
+   * @param group グループ
+   * @param text テキスト
    */
-  void updateTitle() {
-    definitionFileManager.getFile().ifPresent(this::updateTitle);
+  private void changeSelectionOfToggle(ToggleGroup group, String text) {
+    group.getToggles().stream()
+        .map(t -> (RadioMenuItem) t)
+        .filter(t -> t.getText().equals(text))
+        .findFirst()
+        .ifPresent(t -> t.setSelected(true));
+  }
+
+  /**
+   * 定義ビューのディバイダ―位置を変更する。
+   */
+  private void changeDividerPosition() {
+    CONFIG.getProperty(PropertiesKeys.DIVIDER.TEXT)
+        .map(Double::parseDouble)
+        .ifPresent(d -> splitPane.setDividerPosition(0, d));
+  }
+
+  /**
+   * 計算結果のフォントサイズを変更する。
+   */
+  private void changeResultFontSize() {
+    int resultFontSize = CONFIG.getProperty(PropertiesKeys.RESULT.TEXT)
+        .map(Integer::parseInt).orElse(10);
+    changeResultFontSize(resultFontSize);
+  }
+
+  /**
+   * 計算結果のフォントサイズを変更する。
+   * @param fontSize フォントサイズ
+   */
+  private void changeResultFontSize(int fontSize) {
+    clCodeTabList.stream().forEach(t -> t.changeFontSize(fontSize));
+  }
+
+  /**
+   * 定義ビューのフォントサイズを変更する。
+   */
+  private void changeDefinitionViewerFontSize() {
+    int fontSize = CONFIG.getProperty(PropertiesKeys.PREVIEW.TEXT)
+        .map(Integer::parseInt).orElse(12);
+    changeDefinitionViewerFontSize(fontSize);
+  }
+
+  /**
+   * 定義ビューのフォントサイズを変更する。
+   * @param fontSize フォントサイズ
+   */
+  private void changeDefinitionViewerFontSize(int fontSize) {
+    definitionViewer.setFontSize(fontSize);
   }
 
   /**
@@ -600,29 +607,43 @@ public class MainController {
     }
   }
 
-  @FXML
-  private void configMenuItemOnAction() {
-    ConfigOperator operator = new ConfigOperator();
-    Optional<Map<String, String>> configsMap = operator.showAndWaitAndGetConfigs();
-    configsMap.ifPresent(map -> CONFIG.setProperties(map));
-
-    changeLanguage();
-    setLanguages();
-    changeResultFontSize();
-    changePreviewFontSize();
-  }
-
   /**
    * プロパティファイルに記録されている言語設定から言語環境を変更
    * プロパティファイルが存在しなかった場合は英語が設定される。
    */
-  private static void changeLanguage() {
+  private void changeLanguage() {
     String text = CONFIG.getProperty(PropertiesKeys.LANGUAGE.TEXT)
         .orElse(Languages.convertLocaleToText(Locale.getDefault()));
     Locale.setDefault(Languages.convertTextToLocale(text));
     dictionary = ResourceBundle
         .getBundle("application.resources.languages.dictionary", Locale.getDefault(),
             new ResourceBundleControlUTF8());
+  }
+
+  /**
+   * 開いている定義ファイルのコンビネータの定義リストを返す。
+   * @return 定義配列リスト
+   */
+  public List<String[]> getCombinatorsList() {
+    return combinatorsList;
+  }
+
+  /**
+   * 定義ファイルを監視するFileChooserManagerクラスのインスタンスを返す。
+   * @return DefinitionFileManager
+   */
+  public static FileChooserManager getDefinitionFileManager() {
+    return definitionFileManager;
+  }
+
+  /**
+   * 選択中のラジオメニューから上限値を取得する。
+   * @return max
+   */
+  private int getMaxCalculationCount() {
+    RadioMenuItem maxRadio = (RadioMenuItem) calculationMaxGroup.getSelectedToggle();
+    int max = Integer.valueOf(maxRadio.getText());
+    return max - 1;
   }
 
   /**
@@ -656,18 +677,5 @@ public class MainController {
     addButton.setText(dictionary.getString("mainStage-addButton"));
     resultTitledPane.setText(dictionary.getString("mainStage-resultTitledPane"));
     previewTitledPane.setText(dictionary.getString("mainStage-previewTitledPane"));
-  }
-
-  /**
-   * 渡したテキストとトグルのテキストが一致するものを選択する。
-   * @param group 対象トグルグループ
-   * @param text 対象テキスト
-   */
-  private void changeSelectionOfToggle(ToggleGroup group, String text) {
-    group.getToggles().stream()
-        .map(t -> (RadioMenuItem) t)
-        .filter(t -> t.getText().equals(text))
-        .findFirst()
-        .ifPresent(t -> t.setSelected(true));
   }
 }

@@ -27,6 +27,11 @@ import lib.string.combinator.CombinatorLogic;
 import util.PropertiesKeys;
 import util.UtilCombinatorLogic;
 
+/**
+ * 定義ファイルを編集するクラス。
+ * @author shinichi666
+ *
+ */
 public class EditDefinitionStageController {
   private EditDefinitionStage stage;
   private String lineSeparator;
@@ -118,11 +123,6 @@ public class EditDefinitionStageController {
    * コンビネータの定義をステージ制政治の者に復元する。
    */
   void cancel() {
-    // List<String[]> lines = initialDefinitionList.stream()
-    // .filter(l -> !l.startsWith("#") && l.length() != 0)
-    // .map(m -> m.replaceAll("[ || ||\t]", "").split(","))
-    // .collect(Collectors.toList());
-    // CombinatorLogic.setMacroCombinatorList(lines);
     hide();
   }
 
@@ -233,11 +233,17 @@ public class EditDefinitionStageController {
     return list;
   }
 
+  // ************************************************************
+  // Getter
+  // ************************************************************
   String getDividerPosition() {
     double[] position = splitPane.getDividerPositions();
     return String.valueOf(position[0]);
   }
 
+  // ************************************************************
+  // Setter
+  // ************************************************************
   void setStage(EditDefinitionStage aStage) {
     stage = aStage;
   }

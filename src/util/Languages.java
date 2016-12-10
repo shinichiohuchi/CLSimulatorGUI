@@ -8,11 +8,22 @@ import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * 言語環境の切り替えを担当する列挙型。
+ * @author shinichi666
+ *
+ */
 public enum Languages {
     JP("日本語(Japanese)", Locale.JAPAN),
     EN("英語(English)", Locale.US);
 
+  /**
+   * コンボボックスなどに登録するテキスト。
+   */
   public final String TEXT;
+  /**
+   * 対応する国
+   */
   public final Locale LOCALE;
 
   private Languages(String aText, Locale aLocale) {

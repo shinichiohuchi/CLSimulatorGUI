@@ -18,6 +18,9 @@ public enum PropertiesKeys {
     AUTO_OPEN("autoOpen"),
     DIVIDER("divider");
 
+  /**
+   * キー
+   */
   public final String TEXT;
 
   private PropertiesKeys(String aText) {

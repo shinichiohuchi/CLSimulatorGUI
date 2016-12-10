@@ -13,6 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 
+/**
+ * コンフィグ画面のコントローラクラス。
+ * @author shinichi666
+ *
+ */
 public class ConfigStageController {
   private Map<String, ConfigController> controllersMap;
   boolean configApply = false;
@@ -83,6 +88,10 @@ public class ConfigStageController {
     return map;
   }
 
+  /**
+   * 画面切り替えリストの横幅を変更する。
+   * @param width 横幅
+   */
   public void setListViewWidth(double width) {
     listView.setPrefWidth(width);
   }

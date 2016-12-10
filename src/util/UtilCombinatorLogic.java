@@ -12,17 +12,24 @@ import java.util.stream.Collectors;
 
 import lib.string.combinator.CombinatorLogic;
 
+/**
+ * コンビネータ論理のユーティリティクラス。
+ * @author shinichi666
+ *
+ */
 public class UtilCombinatorLogic {
   private static final char[] ALPHABETS = "abcdefghijklmnopqrstuvwxyz".toCharArray();
   private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
   /**
-   * 渡された配列がコンビネータの書式の条件を満たしているかを調べ、 満たしていた場合は整形後の文字列を返し、
-   * 満たしていなかった場合はエラー文字列を返す。
+   * 渡された配列がコンビネータの書式の条件を満たしているかを調べ、<br>
+   * 満たしていた場合は整形後の文字列を返し、<br>
+   * 満たしていなかった場合はエラー文字列を返す。<br>
    * また、正しい文字列かどうかを配列1に格納して返す。
-   * @param line
-   *          定義配列
-   * @return String [0] = 整形後の文字列 Boolean [1] = 正しい文字列かどうか
+   * @param line 定義配列
+   * @return
+   *       String [0] = 整形後の文字列<br>
+   *       Boolean [1] = 正しい文字列かどうか<br>
    */
   public static Object[] getCheckedDefinition(String[] line) {
     Object[] definition = new Object[2];
@@ -63,6 +70,7 @@ public class UtilCombinatorLogic {
 
   /**
    * コンビネータの定義を配列のリストして取り出す。
+   * @param file コンビネータ定義ファイル
    * @return #で始まる行の無視した、カンマ区切りの配列
    */
   public static List<String[]> makeCombinatorsDefinitionList(File file) {

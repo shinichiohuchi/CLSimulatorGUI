@@ -42,8 +42,7 @@ public class CLCodeTableTabController {
 
   /**
    * テーブルが保持するCLCodeのデータをテキストファイルに出力する。
-   * @param saveFile
-   *          保存するファイル
+   * @param saveFile 保存するファイル
    */
   public void outputCLCodeToFile(File saveFile) {
     List<Code> list = tableView.getItems();
@@ -64,13 +63,15 @@ public class CLCodeTableTabController {
 
   /**
    * TableViewのフォントサイズを変更する。
-   * @param fontSize
-   *          フォントサイズ
+   * @param fontSize フォントサイズ
    */
   public void changeFontSize(int fontSize) {
     tableView.setStyle("-fx-font-size: " + fontSize + "pt;");
   }
 
+  /**
+   * 選択中のレコードのCLCodeをクリップボードにコピー
+   */
   @FXML
   private void copyMenuItemOnClicked() {
     if (!tableView.getSelectionModel().isEmpty()) {
@@ -87,10 +88,8 @@ public class CLCodeTableTabController {
    * 渡されたCLCodeを計算し、計算結果をテーブルに格納する。
    * 計算回数に上限を指定でき、回数上限の指定が0以下だった場合、
    * 計算が引数不足で終了するまで計算を続ける。 上限を0以下に指定した場合は、無限ループが発生する可能性がある。
-   * @param clcode
-   *          CLCode
-   * @param max
-   *          計算回数上限
+   * @param clcode CLCode
+   * @param max 計算回数上限
    */
   public void setCLCode(String clcode, int max) {
     CombinatorLogic code = new CombinatorLogic(clcode, mainController.getCombinatorsList());
