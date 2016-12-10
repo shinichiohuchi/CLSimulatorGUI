@@ -1,0 +1,31 @@
+#その他のコンビネータ及び、独自関数
+D, C(BC(B(CI)K))
+<0>, KI
+<1>, SB(KI)
+
+#原始帰納的関数
+<zero>, KI
+<suc>, SB
+<one>, <suc><zero>
+#R関数とsuc関数を使用すると作ることができる?
+<p1_1>, I
+
+<p2_1>, K
+<p2_2>, KI
+
+<p3_1>, S(KK)K
+<p3_2>, KK
+<p3_3>, K(KI)
+
+Q, 2, D(SB(1<zero>))(0(1<zero>)(1<one>))
+#Q, S(K(S(S(KD)(S(K<suc>)(SI(K<zero>))))))(S(S(KS)(S(S(KS)K)(K(SI(K<zero>)))))(K(SI(K<one>))))
+
+#再起処理関数
+R, 3, 2(Q1)(D<zero>0)<one>
+#R, S(S(KS)(S(K(S(KS)))S(K(S(S(KS)(S(K(SI))(S(KK)Q)))))(S(KK)(S(KK)(D(KI))))))(K(K(K(SB(KI)))))
+
+#Y, 2, <suc>1
+#<add>, 2, R0Y1
+#<add>, 4, 02(123)
+#<Y>, 2, <add>
+#<mult>, 2, R<zero>(<add>03)1
