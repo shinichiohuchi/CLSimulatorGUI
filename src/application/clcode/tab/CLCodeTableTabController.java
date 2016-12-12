@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import application.MainController;
+import application.clcode.tree.TreeViewStage;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -30,8 +31,10 @@ public class CLCodeTableTabController {
   @FXML private TableColumn<Code, Integer> stepColumn = new TableColumn<>("Step");
   @FXML private TableColumn<Code, Integer> cltermCountColumn = new TableColumn<>("CLT");
   @FXML private TableColumn<Code, String> clcodeColumn = new TableColumn<>("Code");
+
   @FXML private ContextMenu contextMenu;
   @FXML private MenuItem copyMenuItem;
+  @FXML private MenuItem treeMenuItem;
 
   @FXML
   private void initialize() {
@@ -81,6 +84,18 @@ public class CLCodeTableTabController {
       String clcode = tableView.getItems().get(index).clcodeProperty().get();
       content.putString(clcode);
       clipboard.setContent(content);
+    }
+  }
+
+  /**
+   * 木構造ビューを表示する。
+   */
+  @FXML
+  private void treeMenuItemOnAction() {
+    if (!tableView.getSelectionModel().isEmpty()) {
+      String clcode = tableView.getSelectionModel().getSelectedItem().clcodeProperty().get();
+      TreeViewStage stage = new TreeViewStage(clcode);
+      stage.showAndWait();
     }
   }
 
