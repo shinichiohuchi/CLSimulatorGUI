@@ -30,8 +30,7 @@ public class TreeViewController {
 
   @FXML
   private void outputButtonOnAction() {
-    Optional<File> fileOpt = manager.saveFile();
-    fileOpt.ifPresent(f -> {
+    manager.saveFile().ifPresent(f -> {
       IOXml ioXml = new IOXml(clTermTree.getRootValue());
       ioXml.outputXml(f);
     });
