@@ -16,3 +16,24 @@
     -fx-alignment: center-left ;
     -fx-padding: 0.0 0.0 0.0 5.0;
 }
+
+.button {
+    -fx-pref-width: 100;
+}
+
+.table-cell:filled:hover,
+.tree-cell:filled:hover {
+    -fx-background-color: -fx-cell-focus-inner-border, -fx-selection-bar;
+    -fx-background-insets: 0.0, 0.0, 1.0, 0.0;
+    -fx-background: -fx-selection-bar;
+}
+
+.tree-cell:odd {
+    -fx-background-color: rgb(225,225,225);
+}
+
+.tree-cell:selected{
+    -fx-background-color: -fx-cell-focus-inner-border, -fx-selection-bar;
+    -fx-background-insets: 0.0, 0.0, 1.0, 0.0;
+    -fx-background: -fx-selection-bar;
+}
