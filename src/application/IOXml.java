@@ -123,4 +123,12 @@ public class IOXml {
       e.printStackTrace();
     }
   }
+
+  /**
+   * ルートのテキスト(clcode)を返す。
+   * @return clcode
+   */
+  public String getRootValue() {
+    return root.getAttribute(CLTERM);
+  }
 }
