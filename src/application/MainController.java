@@ -533,7 +533,7 @@ public class MainController {
   private void changeSelectionOfToggle(String key, ToggleGroup group) {
     CONFIG.getProperty(key)
         .ifPresent(text -> {
-          changeSelectionOfToggle(cltermCountGroup, text);
+          changeSelectionOfToggle(group, text);
         });
 
   }
