@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import application.FileChooserManager;
+import application.IOXml;
 import application.MainController;
 import application.clcode.tree.TreeViewStage;
 import javafx.fxml.FXML;
@@ -19,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.MouseEvent;
 import lib.string.combinator.CombinatorLogic;
 
 /**
@@ -27,6 +30,15 @@ import lib.string.combinator.CombinatorLogic;
  */
 public class CLCodeTableTabController {
   private MainController mainController;
+  private FileChooserManager manager = new FileChooserManager("Text Files", "*.xml");
+  /**
+   * CLCodeTableを管理するフィールド
+   */
+  private CLCodeTable clcodeTable;
+
+  // ************************************************************
+  // コンポーネント
+  // ************************************************************
   @FXML private TableView<Code> tableView = new TableView<>();
   @FXML private TableColumn<Code, Integer> stepColumn = new TableColumn<>("Step");
   @FXML private TableColumn<Code, Integer> cltermCountColumn = new TableColumn<>("CLT");
@@ -35,9 +47,12 @@ public class CLCodeTableTabController {
   @FXML private ContextMenu contextMenu;
   @FXML private MenuItem copyMenuItem;
   @FXML private MenuItem treeMenuItem;
+  @FXML private MenuItem saveAsXmlMenuItem;
 
   @FXML
   private void initialize() {
+    clcodeTable = new CLCodeTable(tableView);
+
     stepColumn.setCellValueFactory(new PropertyValueFactory<Code, Integer>("step"));
     cltermCountColumn.setCellValueFactory(new PropertyValueFactory<Code, Integer>("cltermCount"));
     clcodeColumn.setCellValueFactory(new PropertyValueFactory<Code, String>("clcode"));
@@ -48,8 +63,7 @@ public class CLCodeTableTabController {
    * @param saveFile 保存するファイル
    */
   public void outputCLCodeToFile(File saveFile) {
-    List<Code> list = tableView.getItems();
-    if (!list.isEmpty()) {
+    clcodeTable.getItems().ifPresent(list -> {
       try (PrintWriter pw = new PrintWriter(
           new BufferedWriter(new OutputStreamWriter(new FileOutputStream(saveFile), "UTF-8")))) {
         List<String> clcodeList = list.stream().map(m -> m.clcodeProperty().get())
@@ -61,7 +75,7 @@ public class CLCodeTableTabController {
       } catch (IOException e) {
         e.printStackTrace();
       }
-    }
+    });
   }
 
   /**
@@ -72,19 +86,24 @@ public class CLCodeTableTabController {
     tableView.setStyle("-fx-font-size: " + fontSize + "pt;");
   }
 
+  @FXML
+  private void contextMenuOnShown() {
+    copyMenuItem.setText(MainController.dictionary.getString("tableView-contextMenu-copy"));
+    treeMenuItem.setText(MainController.dictionary.getString("tableView-contextMenu-showTreeView"));
+    saveAsXmlMenuItem.setText(MainController.dictionary.getString("tableView-contextMenu-saveAsXml"));
+  }
+
   /**
    * 選択中のレコードのCLCodeをクリップボードにコピー
    */
   @FXML
   private void copyMenuItemOnClicked() {
-    if (!tableView.getSelectionModel().isEmpty()) {
+    clcodeTable.getSelectedCLCode().ifPresent(clcode -> {
       Clipboard clipboard = Clipboard.getSystemClipboard();
       ClipboardContent content = new ClipboardContent();
-      int index = tableView.getSelectionModel().getSelectedIndex();
-      String clcode = tableView.getItems().get(index).clcodeProperty().get();
       content.putString(clcode);
       clipboard.setContent(content);
-    }
+    });
   }
 
   /**
@@ -92,10 +111,36 @@ public class CLCodeTableTabController {
    */
   @FXML
   private void treeMenuItemOnAction() {
-    if (!tableView.getSelectionModel().isEmpty()) {
-      String clcode = tableView.getSelectionModel().getSelectedItem().clcodeProperty().get();
+    clcodeTable.getSelectedCLCode().ifPresent(clcode -> {
       TreeViewStage stage = new TreeViewStage(clcode);
       stage.showAndWait();
+    });
+  }
+
+  /**
+   * ファイルチューザを使用して、XMLファイル形式でデータを保存する。
+   */
+  @FXML
+  private void saveAsXmlOnAction() {
+    clcodeTable.getSelectedCLCode().ifPresent(clcode -> {
+      manager.saveFile().ifPresent(file -> {
+        IOXml ioXml = new IOXml(clcode);
+        ioXml.outputXml(file);
+      });
+    });
+  }
+
+  /**
+   * クリックイベント。<br>
+   * <ol>
+   *   <li><p>ダブルクリックで選択したCLCodeのツリーを表示</p></li>
+   * </ol>
+   * @param event マウスイベント
+   */
+  @FXML
+  private void tableViewOnMouseClicked(MouseEvent event) {
+    if (event.getClickCount() == 2) {
+      treeMenuItemOnAction();
     }
   }
 
