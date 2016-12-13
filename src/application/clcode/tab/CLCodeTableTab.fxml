@@ -16,7 +16,7 @@
          <contextMenu>
             <ContextMenu fx:id="contextMenu" onShown="#contextMenuOnShown">
               <items>
-                <MenuItem fx:id="copyMenuItem" mnemonicParsing="false" onAction="#copyMenuItemOnClicked" text="Copy to clip board" />
+                <MenuItem fx:id="copyMenuItem" mnemonicParsing="false" onAction="#copyMenuItemOnAction" text="Copy to clip board" />
                   <MenuItem fx:id="treeMenuItem" mnemonicParsing="false" onAction="#treeMenuItemOnAction" text="Show Tree View" />
                   <MenuItem fx:id="saveAsXmlMenuItem" mnemonicParsing="false" onAction="#saveAsXmlOnAction" text="Save As Xml" />
               </items>
