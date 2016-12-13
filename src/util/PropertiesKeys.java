@@ -15,6 +15,8 @@ public enum PropertiesKeys {
     RESULT("resultFontSize"),
     PREVIEW("previewFontSize"),
     EDITOR("editorFontSize"),
+    CALCULATION_BRACKET("calculationBracket"),
+
     AUTO_OPEN("autoOpen"),
     DIVIDER("divider");
 
