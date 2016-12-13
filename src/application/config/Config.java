@@ -128,4 +128,9 @@ public class Config {
     this.getProperty("width").map(Double::parseDouble).ifPresent(stage::setWidth);
     this.getProperty("height").map(Double::parseDouble).ifPresent(stage::setHeight);
   }
+
+  @Override
+  public String toString() {
+    return properties.toString();
+  }
 }
