@@ -4,6 +4,7 @@ import static util.PropertiesKeys.EDITOR;
 import static util.PropertiesKeys.LANGUAGE;
 import static util.PropertiesKeys.PREVIEW;
 import static util.PropertiesKeys.RESULT;
+import static util.PropertiesKeys.CALCULATION_BRACKET;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -16,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -51,6 +53,7 @@ public class BasicConfigController implements ConfigController {
   @FXML private ComboBox<String> tableViewComboBox;
   @FXML private ComboBox<String> previewComboBox;
   @FXML private ComboBox<String> editComboBox;
+  @FXML private CheckBox calculateBracketCheckBox;
 
   @FXML
   private void initialize() {
@@ -68,6 +71,9 @@ public class BasicConfigController implements ConfigController {
     config.getProperty(RESULT.TEXT).ifPresent(tableViewComboBox::setValue);
     config.getProperty(PREVIEW.TEXT).ifPresent(previewComboBox::setValue);
     config.getProperty(EDITOR.TEXT).ifPresent(editComboBox::setValue);
+    config.getProperty(CALCULATION_BRACKET.TEXT)
+        .map(Boolean::valueOf)
+        .ifPresent(calculateBracketCheckBox::setSelected);
 
     setLanguages();
   }
@@ -82,6 +88,7 @@ public class BasicConfigController implements ConfigController {
     propertiesMap.put(RESULT.TEXT, tableViewComboBox.getValue());
     propertiesMap.put(PREVIEW.TEXT, previewComboBox.getValue());
     propertiesMap.put(EDITOR.TEXT, editComboBox.getValue());
+    propertiesMap.put(CALCULATION_BRACKET.TEXT, "" + calculateBracketCheckBox.isSelected());
     return propertiesMap;
   }
 
@@ -113,5 +120,6 @@ public class BasicConfigController implements ConfigController {
     tableViewLabel.setText(dictionary.getString("configStage-basic-resultLabel"));
     previewLabel.setText(dictionary.getString("configStage-basic-previewLabel"));
     editLabel.setText(dictionary.getString("configStage-basic-editorLabel"));
+    calculateBracketCheckBox.setText(dictionary.getString("configStage-basic-calculateBracket"));
   }
 }

@@ -25,11 +25,13 @@
             <Label fx:id="previewLabel" text="Preview" GridPane.rowIndex="2" />
             <Label fx:id="editLabel" text="Editor" GridPane.rowIndex="3" />
             <ComboBox fx:id="languageComboBox" prefWidth="200.0" GridPane.columnIndex="1" />
-            <ComboBox fx:id="tableViewComboBox" value="10" prefWidth="75.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ComboBox fx:id="previewComboBox" value="12" prefWidth="75.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <ComboBox fx:id="editComboBox" value="12" prefWidth="75.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox fx:id="tableViewComboBox" prefWidth="75.0" value="10" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="previewComboBox" prefWidth="75.0" value="12" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="editComboBox" prefWidth="75.0" value="12" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
+      <Separator />
+      <CheckBox fx:id="calculateBracketCheckBox" mnemonicParsing="false" text="Calculate Bracket" />
    </children>
    <padding>
       <Insets bottom="10.0" top="10.0" />
