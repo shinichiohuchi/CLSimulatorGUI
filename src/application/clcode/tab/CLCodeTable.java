@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javafx.scene.control.TableView;
+import lib.string.combinator.CombinatorLogic;
 
 /**
  * テーブルビューのファーストクラスコレクション。
@@ -39,5 +40,16 @@ public class CLCodeTable {
       return Optional.ofNullable(null);
     }
     return Optional.ofNullable(codeList);
+  }
+
+  /**
+   * CLCodeをレコードの最後に新しく追加する。
+   * @param clcode CLCode
+   */
+  void addItem(String clcode) {
+    CombinatorLogic code = new CombinatorLogic(clcode);
+    int cltermCount = code.getCLTermCount();
+    int step = tableView.getItems().size() + 1;
+    tableView.getItems().add(new Code(step, cltermCount, clcode));
   }
 }
