@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 /**
  * 一番最初に実行されるアプリケーションクラス。
  * @author Shinichi Ouchi
- * @version 2.0
+ * @version 2.1
  */
 public class Main extends Application {
   private MainController controller;
