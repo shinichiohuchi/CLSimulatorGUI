@@ -43,6 +43,19 @@ public class CLCodeTable {
   }
 
   /**
+   * 最後のレコードを返す。
+   * @return 最後のレコード
+   */
+  Optional<Code> getLastItem() {
+    List<Code> codeList = tableView.getItems();
+    if (codeList.isEmpty()) {
+      return Optional.ofNullable(null);
+    }
+    int lastIndex = codeList.size() - 1;
+    return Optional.ofNullable(codeList.get(lastIndex));
+  }
+
+  /**
    * CLCodeをレコードの最後に新しく追加する。
    * @param clcode CLCode
    */
