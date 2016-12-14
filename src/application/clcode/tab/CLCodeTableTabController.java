@@ -22,6 +22,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import lib.string.combinator.CombinatorLogic;
 import util.PropertiesKeys;
@@ -31,7 +33,6 @@ import util.PropertiesKeys;
  * @author shinichi666
  */
 public class CLCodeTableTabController {
-  private MainController mainController;
   private FileChooserManager manager = new FileChooserManager("Text Files", "*.xml");
   /**
    * CLCodeTableを管理するフィールド
@@ -64,7 +65,7 @@ public class CLCodeTableTabController {
    * テーブルが保持するCLCodeのデータをテキストファイルに出力する。
    * @param saveFile 保存するファイル
    */
-  public void outputCLCodeToFile(File saveFile) {
+  void outputCLCodeToFile(File saveFile) {
     clcodeTable.getItems().ifPresent(list -> {
       try (PrintWriter pw = new PrintWriter(
           new BufferedWriter(new OutputStreamWriter(new FileOutputStream(saveFile), "UTF-8")))) {
@@ -77,6 +78,17 @@ public class CLCodeTableTabController {
       } catch (IOException e) {
         e.printStackTrace();
       }
+    });
+  }
+
+  /**
+   * テーブルの最後のレコードをXMLファイルとして出力する。
+   * @param file 出力ファイル
+   */
+  void outputCLCodeAsXml(File file) {
+    clcodeTable.getLastItem().ifPresent(item -> {
+      IOXml ioXml = new IOXml(item.clcodeProperty().get());
+      ioXml.outputXml(file);
     });
   }
 
@@ -104,6 +116,18 @@ public class CLCodeTableTabController {
     if (event.getClickCount() == 2) {
       treeMenuItemOnAction();
     }
+  }
+
+  /**
+   * エンターキーを押したときに、選択状態にあるレコードをツリー表示。
+   * @param event キーイベント
+   */
+  @FXML
+  private void tablViewOnKeyPressed(KeyEvent event) {
+    if (event.getCode() == KeyCode.ENTER) {
+      treeMenuItemOnAction();
+    }
+
   }
 
   @FXML
@@ -197,7 +221,7 @@ public class CLCodeTableTabController {
    * @param max 計算回数上限
    */
   public void setCLCode(String clcode, int max) {
-    CombinatorLogic code = new CombinatorLogic(clcode, mainController.getCombinatorsList());
+    CombinatorLogic code = new CombinatorLogic(clcode, MainController.getCombinatorsList());
     int step = 0;
     while (code.canStep() && (max <= 0 || step <= max)) {
       step++;
@@ -208,9 +232,5 @@ public class CLCodeTableTabController {
       code.step();
     }
     calculateBracket();
-  }
-
-  void setMainController(MainController aMainController) {
-    mainController = aMainController;
   }
 }
