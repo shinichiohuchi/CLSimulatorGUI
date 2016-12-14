@@ -57,7 +57,7 @@ public class MainController {
   /**
    * コンビネータのフォーマットを保持するリスト
    */
-  private List<String[]> combinatorsList;
+  private static List<String[]> combinatorsList;
 
   /**
    * 言語環境によって変化するテキストを格納したプロパティ
@@ -68,6 +68,11 @@ public class MainController {
    * 開いたCLCodeが記述されたテキストファイルの情報を保持するクラス
    */
   private static FileChooserManager clcodeFileManager;
+
+  /**
+   * 開いたCLCodeが記述されたテキストファイルの情報を保持するクラス
+   */
+  private static FileChooserManager xmlFileManager = new FileChooserManager("Text Files", "*.xml");
 
   /**
    * コンビネータが定義されたファイルの情報を保持するクラス。
@@ -99,7 +104,9 @@ public class MainController {
   // **************************************************
   @FXML private Menu fileMenu;
   @FXML private MenuItem openMenuItem;
+  @FXML private MenuItem openXmlMenuItem;
   @FXML private MenuItem saveMenuItem;
+  @FXML private MenuItem saveXmlMenuItem;
   @FXML private MenuItem newDefinitionFileMenuItem;
   @FXML private MenuItem openDefinitionFileMenuItem;
   @FXML private MenuItem editDefinitionFileMenuItem;
@@ -159,10 +166,6 @@ public class MainController {
     // **************************************************
     // 設定ファイルから読み取った値をセット
     // **************************************************
-    changeDividerPosition();
-    changeDefinitionViewerFontSize();
-    showOrHideDefinitionViewer();
-
     String defPath = CONFIG.getProperty(PropertiesKeys.DEFINITION_PATH.TEXT).orElse("");
     definitionFileManager = new FileChooserManager(defPath, "Text Files", "*.csv");
     File defFile = new File(defPath);
@@ -170,8 +173,6 @@ public class MainController {
       combinatorsList = CombinatorLogic.makeMacroCombinatorsList(defFile);
       editDefinitionFileMenuItem.setDisable(false);
     }
-    // **************************************************
-
     changeLanguage();
     setLanguages();
     addInitialTab();
@@ -179,6 +180,8 @@ public class MainController {
     changeResultFontSize();
     changeSelectionOfToggle(PropertiesKeys.CLTERM_COUNT.TEXT, cltermCountGroup);
     changeSelectionOfToggle(PropertiesKeys.CALCULATION_MAX.TEXT, calculationMaxGroup);
+    changeDefinitionViewerFontSize();
+    showOrHideDefinitionViewer();
   }
 
   /**
@@ -311,14 +314,39 @@ public class MainController {
   }
 
   /**
+   * XMLファイルからCLCodeを取得し計算を実行する。
+   */
+  @FXML
+  private void openXmlMenuItemOnAction() {
+    xmlFileManager.openFile().ifPresent(file -> {
+      IOXml ioXml = new IOXml(file);
+      String clcode = ioXml.getRootValue();
+      addCLCode(clcode);
+    });
+    clcodeTextField.requestFocus();
+  }
+
+  /**
    * ファイル保存ダイアログを表示して、選択中のテーブルタブをテキストファイルに出力する。
    */
   @FXML
   private void saveAsMenuItemOnClicked() {
-    Optional<File> saveFileOpt = clcodeFileManager.saveFile();
-    saveFileOpt.ifPresent(f -> {
+    clcodeFileManager.saveFile().ifPresent(file -> {
       int index = tabPane.getSelectionModel().getSelectedIndex();
-      clCodeTabList.get(index).outputCLCodeToFile(f);
+      clCodeTabList.get(index).outputCLCodeToFile(file);
+    });
+    clcodeTextField.requestFocus();
+  }
+
+  /**
+   * XML形式で計算結果を保存する。
+   * 保存は一番下のレコードを対象とする。
+   */
+  @FXML
+  private void saveXmlMenuItemOnAction() {
+    xmlFileManager.saveFile().ifPresent(file -> {
+      int index = tabPane.getSelectionModel().getSelectedIndex();
+      clCodeTabList.get(index).outputCLCodeAsXml(file);
     });
     clcodeTextField.requestFocus();
   }
@@ -398,7 +426,7 @@ public class MainController {
    */
   @FXML
   private void createRandomCodeMenuItemOnClicked() {
-    String randCode = randomCode.makeRandomCode(combinatorsList);
+    String randCode = randomCode.makeRandomCode();
     int max = getMaxCalculationCount();
     addCLCode(randCode, max);
   }
@@ -552,9 +580,11 @@ public class MainController {
   }
 
   /**
-   * 定義ビューのディバイダ―位置を変更する。
+   * 定義ビューのディバイダ―位置を変更する。<br>
+   * ポジションの変更はStage#show()が終わった後に実行しないと
+   * 実際の数値とずれる。
    */
-  private void changeDividerPosition() {
+  void changeDividerPosition() {
     CONFIG.getProperty(PropertiesKeys.DIVIDER.TEXT)
         .map(Double::parseDouble)
         .ifPresent(d -> splitPane.setDividerPosition(0, d));
@@ -624,7 +654,7 @@ public class MainController {
    * 開いている定義ファイルのコンビネータの定義リストを返す。
    * @return 定義配列リスト
    */
-  public List<String[]> getCombinatorsList() {
+  public static List<String[]> getCombinatorsList() {
     return combinatorsList;
   }
 
@@ -652,7 +682,9 @@ public class MainController {
   private void setLanguages() {
     fileMenu.setText(dictionary.getString("menu-file-title"));
     openMenuItem.setText(dictionary.getString("menu-file-open"));
+    openXmlMenuItem.setText(dictionary.getString("menu-file-openXml"));
     saveMenuItem.setText(dictionary.getString("menu-file-saveAs"));
+    saveXmlMenuItem.setText(dictionary.getString("menu-file-saveXml"));
     newDefinitionFileMenuItem.setText(dictionary.getString("menu-file-newDefinition"));
     openDefinitionFileMenuItem.setText(dictionary.getString("menu-file-openDefinition"));
     editDefinitionFileMenuItem.setText(dictionary.getString("menu-file-editDefinition"));
