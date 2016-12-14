@@ -28,11 +28,6 @@ import util.Languages;
  * @author shinichi666
  */
 public class BasicConfigController implements ConfigController {
-  private static final String TITLE = MainController.dictionary
-      .getString("configStage-basic-headerTitle");
-  private static final String DESCRIPTION = MainController.dictionary
-      .getString("configStage-basic-headerDescription");
-
   // ************************************************************
   // コンポーネント
   // ************************************************************
@@ -99,13 +94,13 @@ public class BasicConfigController implements ConfigController {
 
   @Override
   public String getDescription() {
-    return DESCRIPTION;
+    return MainController.dictionary.getString("configStage-basic-headerDescription");
 
   }
 
   @Override
   public String getTitle() {
-    return TITLE;
+    return MainController.dictionary.getString("configStage-basic-headerTitle");
   }
 
   // ************************************************************
