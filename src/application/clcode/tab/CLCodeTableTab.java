@@ -22,7 +22,6 @@ public class CLCodeTableTab extends Tab {
     try {
       AnchorPane anchorPane = (AnchorPane) loader.load();
       controller = loader.getController();
-      controller.setMainController(aMainController);
       setContent(anchorPane);
     } catch (IOException e) {
       e.printStackTrace();
@@ -36,6 +35,14 @@ public class CLCodeTableTab extends Tab {
    */
   public void outputCLCodeToFile(File saveFile) {
     controller.outputCLCodeToFile(saveFile);
+  }
+
+  /**
+   * 最後のレコードの計算結果をXMLファイルとして出力する。
+   * @param saveFile 保存ファイル
+   */
+  public void outputCLCodeAsXml(File saveFile) {
+    controller.outputCLCodeAsXml(saveFile);
   }
 
   /**
