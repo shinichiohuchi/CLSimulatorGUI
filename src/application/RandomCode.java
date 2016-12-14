@@ -33,7 +33,7 @@ public class RandomCode {
    * @param combinatorsList リスト or nullの場合は初期コンビネータのみ
    * @return CLCode
    */
-  String makeRandomCode(final List<String[]> combinatorsList) {
+  String makeRandomCode() {
     StringBuilder sb = new StringBuilder();
     Random random = new Random();
 
@@ -41,6 +41,7 @@ public class RandomCode {
     // 新しくリストを生成して、先頭に初期コンビネータを追加する。
     List<String[]> newCombinatorsList = new ArrayList<>();
     newCombinatorsList.addAll(CombinatorLogic.getInitialMacroCombinatorsList());
+    List<String[]> combinatorsList = MainController.getCombinatorsList();
     if (combinatorsList != null) {
       newCombinatorsList.addAll(combinatorsList);
     }
