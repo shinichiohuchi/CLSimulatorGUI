@@ -39,6 +39,11 @@ public class CLTermTree {
     treeView.setRoot(root);
   }
 
+  /**
+   * 再起的に括弧を処理しながらアイテムをセットする。
+   * @param parent
+   * @param aClcode
+   */
   private void setItem(TreeItem<String> parent, String aClcode) {
     maxDepth = Math.max(depth, maxDepth);
     depth++;
