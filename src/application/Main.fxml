@@ -70,12 +70,14 @@
                 <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
               </accelerator>
             </MenuItem>
+                  <MenuItem fx:id="openXmlMenuItem" mnemonicParsing="false" onAction="#openXmlMenuItemOnAction" text="Open XML" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#saveAsMenuItemOnClicked" text="Save As...">
               <accelerator>
                 <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
               </accelerator>
             </MenuItem>
+                  <MenuItem fx:id="saveXmlMenuItem" mnemonicParsing="false" onAction="#saveXmlMenuItemOnAction" text="Save As Xml" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="newDefinitionFileMenuItem" mnemonicParsing="false" onAction="#newDefinitionFileMenuItemOnClicked" text="New Definition...">
               <accelerator>
