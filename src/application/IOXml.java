@@ -3,6 +3,7 @@ package application;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,6 +17,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import lib.string.combinator.CombinatorLogic;
 
@@ -24,7 +26,6 @@ import lib.string.combinator.CombinatorLogic;
  * @author shinichi666
  */
 public class IOXml {
-
   private Document doc;
   private Element root;
   private int depth = 1;
@@ -51,6 +52,25 @@ public class IOXml {
     }
 
     setNode(root, aClcode);
+  }
+
+  /**
+   * ファイルからDocumentをセット
+   * @param xmlFile XMLファイル
+   */
+  public IOXml(File xmlFile) {
+    try {
+      doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile);
+      root = doc.getDocumentElement();
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+    } catch (SAXException e) {
+      // TODO 自動生成された catch ブロック
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO 自動生成された catch ブロック
+      e.printStackTrace();
+    }
   }
 
   /**
