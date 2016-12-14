@@ -33,6 +33,7 @@ public class Main extends Application {
       controller = (MainController) loader.getController();
 
       primaryStage.show();
+      controller.changeDividerPosition();
       controller.updateTitle();
     } catch (Exception e) {
       e.printStackTrace();
