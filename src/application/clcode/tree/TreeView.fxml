@@ -8,7 +8,7 @@
 
 <BorderPane prefHeight="452.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.clcode.tree.TreeViewController">
    <center>
-      <TreeView fx:id="treeView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <TreeView fx:id="treeView" onKeyPressed="#treeViewOnKeyPressed" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <VBox BorderPane.alignment="CENTER">
