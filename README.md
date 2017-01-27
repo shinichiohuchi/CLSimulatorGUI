@@ -7,7 +7,7 @@ CLSimulatorGUI マニュアル
 作者           : 大内真一  
 作成日         : 2016/12/10  
 最終更新日     : 2016/12/10  
-連絡先         : [GitHub](https://github.com/shinichiohuchi/CLSimulatorGUI)
+連絡先         : [GitHub](https://github.com/shinichiohuchi/CLSimulatorGUI)  
 実行ファイル名 : CLSG.jar  
 動作確認
 - OS             : Windows10 Pro 64bit, LinuxBean12.04
